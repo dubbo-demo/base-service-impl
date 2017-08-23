@@ -1,4 +1,4 @@
-package com.way.base;
+package com.way.common;
 
 import org.springframework.stereotype.Service;
 
