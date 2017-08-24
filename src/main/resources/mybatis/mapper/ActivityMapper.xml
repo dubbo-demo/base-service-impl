@@ -1,42 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.myph.activity.dao.ActivityDao">
+<mapper namespace="com.way.common.DubboDemoService">
+	<!--
 
-	<select id="checkEmployeeInfo" resultType="java.lang.Integer">
-		SELECT COUNT(1) FROM hd_activityinfo WHERE delFlag = 1 AND 
-		(title=#{title} OR imageName=#{imageName} 
-		<if test="detailUrl != null and detailUrl != ''">
-			OR detailUrl=#{detailUrl}
-		</if>)
-	</select>
+        <select id="checkEmployeeInfo" resultType="java.lang.Integer">
+            SELECT COUNT(1) FROM hd_activityinfo WHERE delFlag = 1 AND
+            (title=#{title} OR imageName=#{imageName}
+            <if test="detailUrl != null and detailUrl != ''">
+                OR detailUrl=#{detailUrl}
+            </if>)
+        </select>
 
-	<insert id="saveActivity" parameterType="com.myph.activity.dto.ActivityDto">
-		INSERT INTO hd_activityinfo (activityNo, publishLocation, title, activityType, imageId, imageName, detailStyle, detailUrl, 
-		createPerson, createDate, delFlag) VALUES (#{activityNo}, #{publishLocation}, #{title}, #{activityType}, #{imageId}, 
-		#{imageName}, #{detailStyle}, #{detailUrl}, #{createPerson}, #{createDate}, #{delFlag});
-	</insert>
-	
-	<select id="activityQuery" resultType="com.myph.activity.dto.ActivityDto">
-		SELECT id, activityNo, publishLocation, title, activityType, detailStyle, createPerson, createDate, delFlag 
-		FROM hd_activityinfo WHERE delFlag=1
-		<if test="query.createDate != null and query.createDate != ''">
-			AND createDate BETWEEN STR_TO_DATE(#{query.createDate}, '%Y-%m-%d') 
-			AND STR_TO_DATE(#{query.createDate}, '%Y-%m-%d')+1
-		</if>
-		order by createDate desc
-	</select>
+        <insert id="saveActivity" parameterType="com.myph.activity.dto.ActivityDto">
+            INSERT INTO hd_activityinfo (activityNo, publishLocation, title, activityType, imageId, imageName, detailStyle, detailUrl,
+            createPerson, createDate, delFlag) VALUES (#{activityNo}, #{publishLocation}, #{title}, #{activityType}, #{imageId},
+            #{imageName}, #{detailStyle}, #{detailUrl}, #{createPerson}, #{createDate}, #{delFlag});
+        </insert>
 
-	<update id="deleteActivity">
-		UPDATE HD_ACTIVITYINFO SET delFlag = 0 WHERE id = #{id}
-	</update>
+        <select id="activityQuery" resultType="com.myph.activity.dto.ActivityDto">
+            SELECT id, activityNo, publishLocation, title, activityType, detailStyle, createPerson, createDate, delFlag
+            FROM hd_activityinfo WHERE delFlag=1
+            <if test="query.createDate != null and query.createDate != ''">
+                AND createDate BETWEEN STR_TO_DATE(#{query.createDate}, '%Y-%m-%d')
+                AND STR_TO_DATE(#{query.createDate}, '%Y-%m-%d')+1
+            </if>
+            order by createDate desc
+        </select>
 
-	<select id="showActivityDetial" resultType="com.myph.activity.dto.ActivityDto">
-		SELECT id, activityNo, publishLocation, title, activityType, imageId, imageName, detailStyle, detailUrl, createPerson, 
-		createDate, delFlag FROM hd_activityinfo WHERE delFlag=1 AND id = #{query.id}
-	</select>
+        <update id="deleteActivity">
+            UPDATE HD_ACTIVITYINFO SET delFlag = 0 WHERE id = #{id}
+        </update>
 
-	<select id="getAdBanner" resultType="com.myph.activity.dto.ActivityDto">
-		SELECT imageId, detailStyle, detailUrl FROM hd_activityinfo WHERE delFlag=1 ORDER BY createDate ASC
-	</select>
+        <select id="showActivityDetial" resultType="com.myph.activity.dto.ActivityDto">
+            SELECT id, activityNo, publishLocation, title, activityType, imageId, imageName, detailStyle, detailUrl, createPerson,
+            createDate, delFlag FROM hd_activityinfo WHERE delFlag=1 AND id = #{query.id}
+        </select>
+
+        <select id="getAdBanner" resultType="com.myph.activity.dto.ActivityDto">
+            SELECT imageId, detailStyle, detailUrl FROM hd_activityinfo WHERE delFlag=1 ORDER BY createDate ASC
+        </select>
+        -->
 </mapper>
