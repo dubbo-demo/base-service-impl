@@ -21,10 +21,5 @@
             <version>${base-service.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.way</groupId>
-            <artifactId>common</artifactId>
-            <version>${common.version}</version>
-        </dependency>
     </dependencies>
 </project>
