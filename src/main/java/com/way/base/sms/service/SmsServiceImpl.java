@@ -16,7 +16,6 @@ import com.way.common.redis.CacheService;
 import com.way.common.result.ServiceResult;
 import com.way.common.util.Validater;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +37,7 @@ public class SmsServiceImpl implements SmsService {
 
 	private final static String SPLATFORM = "way";
 
-	@Autowired
+//	@Autowired
 	private NotifyTempletDao notifyTempletDao;
 
 	@Value("${sms_url}")
