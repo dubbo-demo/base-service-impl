@@ -44,7 +44,7 @@ public class SmsServiceImpl implements SmsService {
 	private String sms_url;
 
 	@Value("${isSend}")
-	private boolean isSend;// 默认false:代表发送短信 true:不发送短信
+	private String isSend;// 默认false:代表发送短信 true:不发送短信
 
 	/**
 	 *
@@ -93,7 +93,7 @@ public class SmsServiceImpl implements SmsService {
 	 *
 	 */
 	public ServiceResult<String> sendSms(String smsCode, String sendMobile, SmsTemplateEnum smsTemplate) {
-		if (isSend) {
+		if ("true".equals(isSend)) {
 			WayLogger.access("根据环境配置，不用直接调用短信服务,配置参数：{}", isSend);
 			return ServiceResult.newSuccess();
 		}
