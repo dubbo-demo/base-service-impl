@@ -49,5 +49,16 @@ public class FileInfoServiceImpl implements FileInfoService {
         fileInfoDao.updateFileInfo(entity);
     }
 
+    /**
+     * 根据图片ID下载图片信息
+     * @param fileId
+     * @return
+     */
+    @Override
+    public FileInfoDto getFileInfoByFileId(String fileId) {
+        FileInfoEntity entity = fileInfoDao.getFileInfoByFileId(fileId);
+        return CommonUtils.transform(entity, FileInfoDto.class);
+    }
+
 
 }
