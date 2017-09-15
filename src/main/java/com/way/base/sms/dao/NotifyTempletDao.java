@@ -1,6 +1,8 @@
 package com.way.base.sms.dao;
 
 import com.way.base.sms.entity.NotifyTemplate;
+import com.way.common.rom.IBaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  *
@@ -10,7 +12,8 @@ import com.way.base.sms.entity.NotifyTemplate;
  * @Date：2017年08月19日 11:03
  *
  */
-public interface NotifyTempletDao {
+@Repository
+public interface NotifyTempletDao extends IBaseMapper {
 	
     int deleteByPrimaryKey(Long id);
 
