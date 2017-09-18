@@ -2,7 +2,6 @@ package com.way.base.file.dao;
 
 import com.way.base.file.entity.FileInfoEntity;
 import com.way.common.rom.IBaseMapper;
-import org.springframework.stereotype.Repository;
 
 /**
  * 功能描述：文件信息Dao
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Repository;
  * @author xinpei.xu
  * @date 2017/08/21 22:09
  */
-@Repository
 public interface FileInfoDao extends IBaseMapper {
 
     /**

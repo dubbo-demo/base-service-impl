@@ -8,4 +8,6 @@
     <!-- 要暴露的服务 -->
     <dubbo:service protocol="dubbo" interface="com.way.base.sms.service.SmsService" ref="smsServiceImpl"/>
 
+    <dubbo:service protocol="dubbo" interface="com.way.base.file.service.FileInfoService" ref="fileInfoServiceImpl"/>
+
 </beans>
