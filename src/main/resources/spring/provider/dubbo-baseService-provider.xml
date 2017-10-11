@@ -10,4 +10,7 @@
 
     <dubbo:service protocol="dubbo" interface="com.way.base.file.service.FileInfoService" ref="fileInfoServiceImpl"/>
 
+    <dubbo:service protocol="dubbo" interface="com.way.base.versionUpdate.service.VersionUpdateService"
+                   ref="versionUpdateServiceImpl"/>
+
 </beans>
