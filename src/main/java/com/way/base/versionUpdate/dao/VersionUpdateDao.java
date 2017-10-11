@@ -1,7 +1,7 @@
 package com.way.base.versionUpdate.dao;
 
-
 import com.way.base.versionUpdate.entity.VersionUpdateEntity;
+import com.way.common.rom.IBaseMapper;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @Author：xinpei.xu
  */
-public interface VersionUpdateDao {
+public interface VersionUpdateDao extends IBaseMapper {
 
     /**
      * @Title: findVersionList
