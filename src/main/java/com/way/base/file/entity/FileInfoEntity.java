@@ -23,8 +23,6 @@ public class FileInfoEntity extends BaseInfo {
      */
     private static final long serialVersionUID = -4110462815712442182L;
 
-    private Long id;
-
     private String phoneNo;// 手机号
 
     private String fileName;// 文件名

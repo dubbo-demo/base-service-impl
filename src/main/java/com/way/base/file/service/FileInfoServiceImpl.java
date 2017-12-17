@@ -4,6 +4,7 @@ import com.way.base.file.dao.FileInfoDao;
 import com.way.base.file.dto.FileInfoDto;
 import com.way.base.file.entity.FileInfoEntity;
 import com.way.common.util.CommonUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class FileInfoServiceImpl implements FileInfoService {
 
-//    @Autowired
+    @Autowired
     private FileInfoDao fileInfoDao;
 
     /**

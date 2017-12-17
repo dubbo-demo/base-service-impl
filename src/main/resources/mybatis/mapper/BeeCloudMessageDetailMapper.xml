@@ -2,4 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.way.base.beeCloud.dao.BeeCloudMessageDetailDao" >
 
+    <select id="getBeeCloudMessageDetailDto" resultType="com.way.base.beeCloud.dto.BeeCloudMessageDetailDto">
+        select * from beeCloud_message_detail where transaction_id = #{transaction_id}
+    </select>
+
+    <insert id="saveBeeCloudMessageDetailDto">
+        insert into beeCloud_message_detail (transaction_id, nonce_str, bank_type, openid, fee_type, mch_id, cash_fee, out_trade_no, appid, total_fee,
+        trade_type, result_code, time_end, is_subscribe, return_code, flag, create_time, modify_time)
+        valuse (#{transaction_id}, #{nonce_str}, #{bank_type}, #{openid}, #{fee_type}, #{mch_id}, #{cash_fee}, #{out_trade_no}, #{appid}, #{total_fee},
+        #{trade_type}, #{result_code}, #{time_end}, #{is_subscribe}, #{return_code}, #{flag}, #{createTime}, #{modifyTime})
+    </insert>
+
+    <update id="updateFlag">
+        update beeCloud_message_detail set flag = #{flag}, modify_time = #{modifyTime} where transaction_id = #{transaction_id}
+    </update>
+    <!--CREATE TABLE `beeCloud_message_detail` (-->
+    <!--`id` bigint(11) NOT NULL AUTO_INCREMENT,-->
+    <!--`transaction_id` varchar(50) COMMENT '微信交易号',-->
+    <!--`nonce_str` varchar(50),-->
+    <!--`bank_type` varchar(50),-->
+    <!--`openid` varchar(50) COMMENT '买家的openid',-->
+    <!--`fee_type` varchar(50),-->
+    <!--`mch_id` varchar(50),-->
+    <!--`cash_fee` varchar(50) COMMENT '现金付款额',-->
+    <!--`out_trade_no` varchar(50) COMMENT '商家内部交易号',-->
+    <!--`appid` varchar(50),-->
+    <!--`total_fee` varchar(50) COMMENT '商品总价，单位为分',-->
+    <!--`trade_type` varchar(50),-->
+    <!--`result_code` varchar(50) COMMENT '业务结果',-->
+    <!--`time_end` varchar(50) COMMENT '交易结束时间',-->
+    <!--`is_subscribe` varchar(50),-->
+    <!--`return_code` varchar(50) COMMENT '通信标示',-->
+    <!--`flag` varchar(50) COMMENT '系统充值成功标志 1：成功，2：失败',-->
+    <!--`create_time` datetime NOT NULL COMMENT '创建时间',-->
+    <!--`modify_time` datetime NOT NULL COMMENT '修改时间',-->
+    <!--PRIMARY KEY (`id`)-->
+    <!--) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='BeeCloud回参记录';-->
 </mapper>
