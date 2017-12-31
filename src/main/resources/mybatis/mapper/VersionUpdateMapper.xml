@@ -3,7 +3,7 @@
 <mapper namespace="com.way.base.versionUpdate.dao.VersionUpdateDao" >
 
   <select id="findVersionList" resultType="com.way.base.versionUpdate.entity.VersionUpdateEntity">
-    SELECT version_no versionNo, terminal_type terminalType, mandatory, comment, download_addr
+    SELECT version_no versionNo, terminal_type terminalType, mandatory, comment, download_addr downLoadAddr
       FROM sys_version_update ORDER BY version_no DESC
   </select>
 

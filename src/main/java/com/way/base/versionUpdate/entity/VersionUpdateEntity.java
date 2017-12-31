@@ -29,6 +29,6 @@ public class VersionUpdateEntity extends BaseEntity {
 	// 说明
 	private String comment;
 	// 下载地址
-	private String downloadAddr;
+	private String downLoadAddr;
 
 }
