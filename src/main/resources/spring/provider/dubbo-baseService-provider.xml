@@ -16,4 +16,7 @@
     <dubbo:service protocol="dubbo" interface="com.way.base.beeCloud.service.BeeCloudMessageDetailService"
                    ref="beeCloudMessageDetailServiceImpl"/>
 
+    <dubbo:service protocol="dubbo" interface="com.way.base.sms.service.AlyunAccessService"
+                   ref="alyunAccessServiceImpl"/>
+
 </beans>
