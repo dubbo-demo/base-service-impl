@@ -2,23 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.way.base.file.dao.FileInfoDao" >
 
-    <select id="getFileInfoByPhoneNo" resultType="com.way.base.file.entity.FileInfoEntity">
+    <select id="getFileInfoByInvitationCode" resultType="com.way.base.file.entity.FileInfoEntity">
         select file_name fileName, file_formart fileFormat, file_size fileSize,
-        file_stream fileStream, file_uuid fileUuid from file_info where phone_no = #{phoneNo}
+        file_stream fileStream, file_uuid fileUuid from file_info where invitation_code = #{invitationCode}
     </select>
 
     <insert id="saveFileInfo">
-        insert into file_info (phone_no, file_name, file_formart, file_size, file_stream, file_uuid, create_time, modify_time) values
-        (#{phoneNo}, #{fileName}, #{fileFormat}, #{fileSize}, #{fileStream}, #{fileUuid}, #{createTime}, #{modifyTime})
+        insert into file_info (invitation_code, file_name, file_formart, file_size, file_stream, file_uuid, create_time, modify_time) values
+        (#{invitationCode}, #{fileName}, #{fileFormat}, #{fileSize}, #{fileStream}, #{fileUuid}, #{createTime}, #{modifyTime})
     </insert>
 
     <update id="updateFileInfo">
         update file_info set file_name = #{fileName}, file_formart = #{fileFormat}, file_size = #{fileSize}, file_stream = #{fileStream},
-        file_uuid = #{fileUuid}, modify_time = #{modifyTime} where phone_no = #{phoneNo}
+        file_uuid = #{fileUuid}, modify_time = #{modifyTime} where invitation_code = #{invitationCode}
     </update>
 
     <select id="getFileInfoByFileId" resultType="com.way.base.file.entity.FileInfoEntity">
-        select phone_no phoneNo, file_name fileName, file_formart fileFormat, file_size fileSize,
+        select invitation_code invitationCode, file_name fileName, file_formart fileFormat, file_size fileSize,
         file_stream fileStream from file_info where file_uuid = #{fileId}
     </select>
 
