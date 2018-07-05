@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.way.base.permission.dao.PermissionDao">
+	<resultMap type="com.way.base.permission.entity.Permission" id="permissionMap">
+		<id property="id" column="id" />
+		<result property="permissionName" column="permissionName" />
+		<result property="permissionUrl" column="permissionUrl" />
+		<result property="menuId" column="menuId" />
+		<result property="permissionCode" column="permissionCode" />
+		<result property="updateTime" column="updateTime" />
+		<result property="createTime" column="createTime" />
+		<result property="createUser" column="createUser" />
+	</resultMap>
+	<!-- 获取菜单下的权限 -->
+	<select id="getPermissionByMenuId" resultMap="permissionMap">
+		select * from
+		sys_permission p where p.menuId =#{id} order by createTime desc
+	</select>
+	<!-- 删除权限 -->
+	<delete id="remove">
+		delete from sys_Permission where id=#{id}
+	</delete>
+	<!-- 插入权限 -->
+	<insert id="add" parameterType="com.way.base.permission.entity.Permission">
+		<selectKey resultType="Long" order="AFTER" keyProperty="id">
+			select last_insert_id() as id
+		</selectKey>
+		insert into sys_permission
+		(permissionName,permissionUrl,menuId,permissionCode,updateTime,createTime,createUser)
+		values(#{permissionName},#{permissionUrl},#{menuId},#{permissionCode},sysdate(),sysdate(),#{createUser})
+	</insert>
+	<!-- 获取单个权限 -->
+	<select id="getEntity" resultMap="permissionMap">
+		select * from sys_Permission p
+		where p.id =#{id}
+	</select>
+	<!-- 更新权限 -->
+	<update id="update" parameterType="com.way.base.permission.entity.Permission">
+		update sys_Permission set
+		permissionUrl=#{permissionUrl},permissionName=#{permissionName},permissionCode=#{permissionCode},updateTime=sysdate()
+		where id=#{id}
+	</update>
+	<!-- 删除菜单下的权限 -->
+	<delete id="deleteByMenuId">
+		delete from sys_Permission where
+		menuId=#{id}
+	</delete>
+	<select id="getPermissionsByRoleId" resultType="java.lang.Long"
+		parameterType="java.util.List">
+		select sp.permissionId from sys_role_permission sp
+		left join sys_role sr on sp.roleId = sr.id 
+		where sr.state = 1 and sp.roleId in
+		<foreach close=")" open="(" collection="roles" item="item"
+			index="index" separator=",">
+			#{item}
+		</foreach>
+	</select>
+	<select id="getPermissionByPerId" resultMap="permissionMap"
+		parameterType="java.util.List">
+		select sp.* from sys_permission sp where
+		sp.id in
+		<foreach close=")" open="(" collection="permissionIds" item="item"
+			index="index" separator=",">
+			#{item}
+		</foreach>
+	</select>
+	<select id="getMenuIdsByPerId" resultType="java.lang.Long"
+		parameterType="java.util.List">
+		select sp.menuId from sys_permission sp where
+		sp.id in
+		<foreach close=")" open="(" collection="permissionIds" item="item"
+			index="index" separator=",">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

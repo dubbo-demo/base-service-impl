@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.way.base.menu.dao.MenuDao">
+
+	<resultMap type="com.way.base.menu.entity.Menu"
+		id="menuMap">
+		<id property="id" column="id" />
+		<result property="menuName" column="menuName" />
+		<result property="menuIcon" column="menuIcon" />
+		<result property="menuUrl" column="menuUrl" />
+		<result property="menuCode" column="menuCode" />
+		<result property="parentId" column="parentId" />
+		<result property="menuLevel" column="menuLevel" />
+		<result property="orderColumn" column="orderColumn" />
+		<result property="updateTime" column="updateTime" />
+		<result property="createTime" column="createTime" />
+		<result property="createUser" column="createUser" />
+	</resultMap>
+	
+	<sql id="sql_column">
+		id,
+		menuName,
+		menuIcon,
+		menuUrl,
+		menuCode,
+		parentId ,
+		menuLevel ,
+		orderColumn,
+		updateTime,
+		createTime,
+		createUser
+	</sql>
+	 <!-- 获取菜单 -->
+	<select id="get" resultMap="menuMap">
+		Select
+		<include refid="sql_column" />
+		from sys_menu where id =#{id}
+	</select>
+	<!-- 获取顶级菜单 -->
+	<select id="getTopMenu" resultMap="menuMap">
+		select 
+		<include refid="sql_column" />
+        from sys_menu where  menuLevel=0 order by orderColumn asc
+	</select>
+	<!-- 获取菜单的子菜单 -->
+	<select id="getChildrenMenus" resultMap="menuMap">
+		select 
+		<include refid="sql_column" /> 
+		from sys_menu where  parentId = #{id} order by orderColumn asc
+	</select>
+	<!-- 插入菜单 -->
+	<insert id="add" parameterType="com.way.base.menu.entity.Menu">
+		 <selectKey resultType="Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+        insert into sys_menu (menuName,menuIcon,menuUrl,menuCode,parentId,menuLevel,orderColumn,updateTime,createTime,createUser)
+        values(#{menuName},#{menuIcon},#{menuUrl},#{menuCode},#{parentId},#{menuLevel},#{orderColumn},sysdate(),sysdate(),#{createUser})
+	</insert>
+	<!-- 更新菜单 -->
+	<update id="update"  parameterType="com.way.base.menu.entity.Menu">
+		update sys_MENU set
+		menuName=#{menuName},menuIcon=#{menuIcon},menuUrl=#{menuUrl},parentId=#{parentId},menuLevel=#{menuLevel},orderColumn=#{orderColumn},updateTime=sysdate()
+		where id = #{id} 
+
+	</update>
+	<!-- 删除菜单 -->
+	<delete id="remove">
+		delete from sys_menu where id=#{id} or parentId=#{id}
+	</delete>
+	
+	<select id="getMenuListByIds" resultMap="menuMap">
+		Select
+		<include refid="sql_column" />
+		from sys_menu where id in
+		<foreach item="item" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		<if test="isTop == true">
+		and menuLevel=0
+		</if>
+		order by orderColumn asc
+	</select>
+	<select id="getLastMenuCode" resultType="java.lang.String">
+		select max(menuCode) from sys_menu where menuCode like concat('%',#{formatDate},'%')
+	</select>
+	
+	<select id="queryMenuCountByName" resultType="int">
+		select count(1) from sys_menu where menuName=#{menuName}
+	</select>
+</mapper>

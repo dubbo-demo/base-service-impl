@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.way.base.role.dao.SysRoleDao">
+	<resultMap id="BaseResultMap" type="com.way.base.role.entity.SysRole">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="roleCode" jdbcType="VARCHAR" property="roleCode" />
+		<result column="roleName" jdbcType="VARCHAR" property="roleName" />
+		<result column="state" jdbcType="INTEGER" property="state" />
+		<result column="updateDate" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="createUser" jdbcType="VARCHAR" property="createUser" />
+		<result column="roleType" jdbcType="INTEGER" property="roleType" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, roleCode, roleName, state, updateDate, createDate,
+		createUser,roleType
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="selectByName"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where roleName = #{roleName,jdbcType=VARCHAR}
+		<if test="roleOldName != null and roleOldName != ''">
+			AND roleName != #{roleOldName,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<select id="selectByCode"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where roleCode = #{roleCode,jdbcType=VARCHAR}
+		<if test="roleOldCode != null and roleOldCode != ''">
+			AND roleCode != #{roleOldCode,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		sys_role
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.way.base.role.entity.SysRole">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_role (id, roleCode, roleName,roleType,
+		state, updateDate,
+		createDate,
+		createUser)
+		values (#{id,jdbcType=BIGINT},
+		#{roleCode,jdbcType=VARCHAR},
+		#{roleName,jdbcType=VARCHAR},#{roleType,jdbcType=INTEGER},
+		#{state,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{createUser,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.way.base.role.entity.SysRole">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			<if test="roleCode != null">
+				roleCode,
+			</if>
+			<if test="roleName != null">
+				roleName,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="updateDate != null">
+				updateDate,
+			</if>
+			<if test="createDate != null">
+				createDate,
+			</if>
+			<if test="createUser != null">
+				createUser,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id,jdbcType=BIGINT},
+			<if test="roleCode != null">
+				#{roleCode,jdbcType=VARCHAR},
+			</if>
+			<if test="roleName != null">
+				#{roleName,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.way.base.role.entity.SysRole">
+		update sys_role
+		<set>
+			<if test="roleCode != null">
+				roleCode = #{roleCode,jdbcType=VARCHAR},
+			</if>
+			<if test="roleName != null">
+				roleName = #{roleName,jdbcType=VARCHAR},
+			</if>
+			<if test="roleType != null">
+                roleType = #{roleType,jdbcType=INTEGER},
+            </if>
+			<if test="state != null">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+			<if test="updateDate != null">
+				updateDate = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createDate != null">
+				createDate = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUser != null">
+				createUser = #{createUser,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateStatus">
+		update sys_role
+		<set>
+			state = #{status,jdbcType=INTEGER}
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.way.base.role.entity.SysRole">
+		update sys_role
+		set roleCode = #{roleCode,jdbcType=VARCHAR},
+		roleName =
+		#{roleName,jdbcType=VARCHAR},
+		state = #{state,jdbcType=INTEGER},
+		updateDate = #{updateDate,jdbcType=TIMESTAMP},
+		createDate =
+		#{createDate,jdbcType=TIMESTAMP},
+		createUser =
+		#{createUser,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="getRolesByPositionId" resultType="java.lang.String">
+		select sr.roleId
+		from sys_position_role sr where
+		sr.positionId = #{positionId}
+	</select>
+	<select id="queryPageList" resultMap="BaseResultMap">
+		select id, roleCode,
+		roleName, state, updateDate, createDate,
+		createUser,roleType
+		from sys_role
+        <where>
+            <if test="queryDto.roleName != null">
+                and roleName like concat('%',#{queryDto.roleName},'%')
+            </if>
+            <if test="queryDto.roleType != null and queryDto.roleType != -1">
+                and roleType = #{queryDto.roleType,jdbcType=INTEGER}
+            </if>
+        </where>		
+		order by createDate desc
+	</select>
+	<select id="getPositionName" resultType="string">
+		select
+		p.positionName
+		from sys_position_role pr left join position p on pr.positionId = p.id
+		where pr.roleId = #{roleId}
+	</select>
+	<select id="getRoleSelectedPosition" resultType="map">
+		select
+		p.id,p.positionName,ISNULL(pr.roleId) isSelected
+		from position p  left join sys_position_role pr on pr.positionId = p.id and pr.roleId = #{roleId}
+		
+	</select>
+	<select id="getRoleSelectedPermission" resultType="map">
+	select
+		p.id,p.permissionName,ISNULL(pr.roleId) isSelected
+		from sys_permission p  left join sys_role_permission pr on pr.permissionId = p.id and pr.roleId = #{roleId}
+		where menuId = #{menuId}
+		
+	</select>
+	
+	<select id="checkRoleByPositionId" parameterType="java.lang.Long"
+        resultType="java.lang.Integer">
+        select count(1) result from sys_position_role where positionId = #{positionId,jdbcType=BIGINT}
+    </select>
+    
+    
+    <select id="selectRolesByType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_role where
+        roleType = #{roleType}
+    </select>  
+    <select id="getRoleNameByPositionId" resultType="string">
+        SELECT S.roleName FROM sys_position_role pr LEFT JOIN SYS_ROLE S ON pr.roleId = S.id WHERE pr.positionId = #{positionId}
+    </select>      
+</mapper>

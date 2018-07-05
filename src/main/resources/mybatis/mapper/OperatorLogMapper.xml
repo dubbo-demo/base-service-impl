@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.way.base.log.dao.OperatorLogDao">
+	<resultMap id="BaseResultMap" type="com.way.base.log.entity.OperatorLog">
+
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="userId" jdbcType="BIGINT" property="userId" />
+		<result column="operatorIp" jdbcType="VARCHAR" property="operatorIp" />
+		<result column="operatorDesc" jdbcType="VARCHAR" property="operatorDesc" />
+		<result column="operatorTime" jdbcType="TIMESTAMP" property="operatorTime" />
+		<result column="mobilePhone" jdbcType="VARCHAR" property="userName" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		operator_log
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.way.base.log.entity.OperatorLog">
+		insert into operator_log (id,
+		userId, operatorIp,
+		operatorDesc, operatorTime)
+		values
+		(#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+		#{operatorIp,jdbcType=VARCHAR},
+		#{operatorDesc,jdbcType=VARCHAR},
+		#{operatorTime,jdbcType=TIMESTAMP})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.way.base.log.entity.OperatorLog">
+		update
+		operator_log
+		set userId = #{userId,jdbcType=BIGINT},
+		operatorIp =
+		#{operatorIp,jdbcType=VARCHAR},
+		operatorDesc =
+		#{operatorDesc,jdbcType=VARCHAR},
+		operatorTime =
+		#{operatorTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select id, userId, operatorIp, operatorDesc, operatorTime
+		from operator_log
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, userId, operatorIp,
+		operatorDesc, operatorTime
+		from operator_log
+	</select>
+	<select id="queryPageList" resultMap="BaseResultMap">
+		select o.id, o.userId,o.operatorIp,
+		o.operatorDesc,o.operatorTime,e.mobilePhone
+		from operator_log o left
+		Join employee e on o.userId = e.id
+		where 1 = 1
+		<if test="queryUserName != null and queryUserName != ''">
+			AND e.mobilePhone = #{queryUserName}
+		</if>
+		<if test="startDate != null and startDate != ''">
+    	<![CDATA[AND o.operatorTime >= #{startDate,jdbcType=TIMESTAMP}]]>
+		</if>
+		<if test="endDate != null and endDate != ''">
+    	<![CDATA[AND o.operatorTime < #{endDate,jdbcType=TIMESTAMP}]]>
+		</if>
+		order by o.operatorTime desc
+	</select>
+</mapper>
