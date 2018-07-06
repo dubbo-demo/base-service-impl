@@ -1,6 +1,6 @@
 package com.way.base.role.entity;
 
-import com.myph.common.bean.BaseInfo;
+import com.way.common.bean.BaseInfo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class SysRole extends BaseInfo{
+public class SysRole extends BaseInfo {
     private static final long serialVersionUID = -2923867569056778465L;
     private Long id;
     private String roleCode;

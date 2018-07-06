@@ -1,8 +1,8 @@
 package com.way.base.role.dao;
 
-import com.myph.common.rom.IBaseMapper;
-import com.myph.role.dto.SysPositionRoleDto;
-import com.myph.role.entity.SysPositionRole;
+import com.way.base.role.dto.SysPositionRoleDto;
+import com.way.base.role.entity.SysPositionRole;
+import com.way.common.rom.IBaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

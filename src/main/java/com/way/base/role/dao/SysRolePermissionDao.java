@@ -1,7 +1,7 @@
 package com.way.base.role.dao;
 
-import com.myph.common.rom.IBaseMapper;
-import com.myph.role.entity.SysRolePermission;
+import com.way.base.role.entity.SysRolePermission;
+import com.way.common.rom.IBaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

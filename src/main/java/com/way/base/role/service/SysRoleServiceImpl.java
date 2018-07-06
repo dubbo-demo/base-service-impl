@@ -1,15 +1,15 @@
 package com.way.base.role.service;
 
-import com.myph.common.log.MyphLogger;
-import com.myph.common.result.ServiceResult;
-import com.myph.common.rom.annotation.Pagination;
-import com.myph.role.dao.SysPositionRoleDao;
-import com.myph.role.dao.SysRoleDao;
-import com.myph.role.dao.SysRolePermissionDao;
-import com.myph.role.dto.*;
-import com.myph.role.entity.SysPositionRole;
-import com.myph.role.entity.SysRole;
-import com.myph.role.entity.SysRolePermission;
+import com.way.base.role.dao.SysPositionRoleDao;
+import com.way.base.role.dao.SysRoleDao;
+import com.way.base.role.dao.SysRolePermissionDao;
+import com.way.base.role.dto.*;
+import com.way.base.role.entity.SysPositionRole;
+import com.way.base.role.entity.SysRole;
+import com.way.base.role.entity.SysRolePermission;
+import com.way.common.log.WayLogger;
+import com.way.common.result.ServiceResult;
+import com.way.common.rom.annotation.Pagination;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,14 +48,14 @@ public class SysRoleServiceImpl implements SysRoleService {
     public ServiceResult<String> updateStatus(long id, Integer status) {
         int line = sysRoleDao.updateStatus(id, status);
         if (line <= 0) {
-            MyphLogger.error("更新角色状态没有成功！{},{}",id,status);
+            WayLogger.error("更新角色状态没有成功！{},{}",id,status);
             return ServiceResult.newFailure("操作失败");
         }
         return ServiceResult.newSuccess();
     }
 
     @Override
-    public ServiceResult<Pagination<SysRoleDto>> queryPageList(SysRoleDto queryDto,Integer index, Integer size) {
+    public ServiceResult<Pagination<SysRoleDto>> queryPageList(SysRoleDto queryDto, Integer index, Integer size) {
         Pagination<SysRole> param = new Pagination<SysRole>(index, size);
         List<SysRole> r = sysRoleDao.queryPageList(queryDto,param);
         List<SysRoleDto> list = new ArrayList<>();
@@ -129,7 +129,7 @@ public class SysRoleServiceImpl implements SysRoleService {
         for (Long id : ids) {
             int count = sysPositionRoleDao.isExist(dto.getRoleId(), id);
             if (count > 0) {
-                MyphLogger.debug(
+                WayLogger.debug(
                         " sysPositionRoleDao.save 已存在角色岗位 输入参数 roleId【" + dto.getRoleId() + "】positionId【" + id + "】");
                 continue;
             }
@@ -154,13 +154,13 @@ public class SysRoleServiceImpl implements SysRoleService {
     public ServiceResult<String> delete(Long roleId) {
         // 删除岗位关联
         sysPositionRoleDao.deleteByRoleId(roleId);
-        MyphLogger.access("sysPositionRoleDao.deleteByRoleId 删除角色岗位关联成功！【ID:" + roleId + "】");
+        WayLogger.access("sysPositionRoleDao.deleteByRoleId 删除角色岗位关联成功！【ID:" + roleId + "】");
         // 删除权限关联
         sysRolePermissionDao.deleteByRoleId(roleId);
-        MyphLogger.access(" sysRolePermissionDao.deleteByRoleId 删除角色权限关联成功！【ID:" + roleId + "】");
+        WayLogger.access(" sysRolePermissionDao.deleteByRoleId 删除角色权限关联成功！【ID:" + roleId + "】");
         // 删除本身
         sysRoleDao.deleteByPrimaryKey(roleId);
-        MyphLogger.access(" sysRoleDao.deleteByPrimaryKey 删除角色成功！【ID:" + roleId + "】");
+        WayLogger.access(" sysRoleDao.deleteByPrimaryKey 删除角色成功！【ID:" + roleId + "】");
 
         return ServiceResult.newSuccess();
     }
@@ -171,7 +171,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 
         // 删除原有的岗位角色关联
         sysPositionRoleDao.deleteByRoleId(dto.getRoleId());
-        MyphLogger.access(" sysPositionRoleDao.deleteByRoleId 删除角色岗位关联成功！【ID:" + dto.getRoleId() + "】");
+        WayLogger.access(" sysPositionRoleDao.deleteByRoleId 删除角色岗位关联成功！【ID:" + dto.getRoleId() + "】");
 
         // 添加岗位角色的关联
         Long[] ids = dto.getPositionIds();
@@ -187,19 +187,19 @@ public class SysRoleServiceImpl implements SysRoleService {
         // 保存整个当前选中的。
         Integer count = sysPositionRoleDao.saveList(temp);
 
-        MyphLogger.access(" sysPositionRoleDao.saveList 添加角色岗位关联成功！【count:" + count + "】条");
+        WayLogger.access(" sysPositionRoleDao.saveList 添加角色岗位关联成功！【count:" + count + "】条");
 
         return ServiceResult.newSuccess(count);
     }
 
     @Override
     public ServiceResult<List<RolePermissionTreeDto>> getPermissionTree(Long roleId, Long menuId) {
-        MyphLogger.debug(
+        WayLogger.debug(
                 " sysRoleDao.getRoleSelectedPermission 获取角色权限 输入参数 roleId【" + roleId + "】menuId【" + menuId + "】");
 
         List<Map<String, Object>> list = sysRoleDao.getRoleSelectedPermission(roleId, menuId);
 
-        MyphLogger.access(" sysRoleDao.getRoleSelectedPermission 获取角色权限【并查询出来是否被选择了】【" + list + "】");
+        WayLogger.access(" sysRoleDao.getRoleSelectedPermission 获取角色权限【并查询出来是否被选择了】【" + list + "】");
 
         List<RolePermissionTreeDto> dtos = new ArrayList<>();
         RolePermissionTreeDto dto = null;
@@ -216,7 +216,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public ServiceResult<Object> insertListSelective(List<RolePermissionSimpleTreeDto> saves,
             List<RolePermissionSimpleTreeDto> removes) {
-        MyphLogger.debug(
+        WayLogger.debug(
                 " SysRoleServiceImpl.insertListSelective 获取角色权限 输入参数 saves【" + saves + "】menuId【" + removes + "】");
         // 添加删除有值才进行
         if (saves.size() > 0) {
